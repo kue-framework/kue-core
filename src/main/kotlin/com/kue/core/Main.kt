@@ -18,6 +18,7 @@ object Main {
         // for loading new modules.
         val bootstrap = Guice.createInjector(BootstrapModule())
         val config = bootstrap.getInstance(Config::class.java)
+        Application.config = config
 
         // Load application.conf defined modules
         val modules = config.getStringList("guice.modules").map {Class.forName(it)}.map {it.newInstance() as Module }
@@ -31,6 +32,7 @@ object Main {
 
 object Application {
 
+    var config: Config? = null
     var injector: Injector? = null
 
 }
