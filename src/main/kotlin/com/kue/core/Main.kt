@@ -6,6 +6,7 @@ import com.google.inject.Module
 import com.typesafe.config.Config
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import spark.Spark.port
 
 
 /**
@@ -16,6 +17,11 @@ object Main {
     @JvmStatic
     fun main(args: Array<String>) : Unit {
         Log.info("Starting Kue")
+
+        val p = try { args[0].toInt() } catch(ex: Exception) { 4567 }
+        Log.info("Spark will use port $p")
+        port(p)
+
         // The bootstrap injector allows us to have the Config available for injection as well as using a config value
         // for loading new modules.
         val bootstrap = Guice.createInjector(BootstrapModule())
